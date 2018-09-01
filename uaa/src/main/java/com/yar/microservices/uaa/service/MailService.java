@@ -5,6 +5,7 @@ import org.apache.commons.lang3.CharEncoding;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
+import org.springframework.core.env.Environment;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -31,20 +32,22 @@ public class MailService {
 
     private static final String BASE_URL = "baseUrl";
 
-    private Mail mail;
-
     private final JavaMailSender javaMailSender;
 
     private final MessageSource messageSource;
 
     private final TemplateEngine templateEngine;
 
+    private final Environment env;
+
+
     public MailService(JavaMailSender javaMailSender,
-                       MessageSource messageSource, SpringTemplateEngine templateEngine) {
+                       MessageSource messageSource, SpringTemplateEngine templateEngine, Environment env) {
 
         this.javaMailSender = javaMailSender;
         this.messageSource = messageSource;
         this.templateEngine = templateEngine;
+        this.env = env;
     }
 
     @Async
@@ -57,7 +60,7 @@ public class MailService {
         try {
             MimeMessageHelper message = new MimeMessageHelper(mimeMessage, isMultipart, CharEncoding.UTF_8);
             message.setTo(to);
-            message.setFrom(mail.getFrom());
+            message.setFrom(env.getProperty("spring.mail.username"));
             message.setSubject(subject);
             message.setText(content, isHtml);
             javaMailSender.send(mimeMessage);
@@ -90,10 +93,11 @@ public class MailService {
         Locale locale = Locale.forLanguageTag(user.getLangKey());
         Context context = new Context(locale);
         context.setVariable(USER, user);
-        context.setVariable(BASE_URL, mail.getBaseUrl());
+        context.setVariable(BASE_URL, "http://localhost:9999");
         String content = templateEngine.process(templateName, context);
         String subject = messageSource.getMessage(titleKey, null, locale);
         sendEmail(user.getEmail(), subject, content, false, true);
+//        sendEmail(user.getEmail(), "registration", content, false, true);
 
     }
 
@@ -116,35 +120,6 @@ public class MailService {
     }
 
 
-    public Mail getMail() {
-        return mail;
-    }
 
-    public void setMail(Mail mail) {
-        this.mail = mail;
-    }
 
-    static class Mail {
-        private String from = "";  // TODO: 7/21/2018 set mail form
-        private String baseUrl = "url"; // TODO: 7/21/2018 set base url
-
-        public Mail() {
-        }
-
-        public String getFrom() {
-            return this.from;
-        }
-
-        public void setFrom(String from) {
-            this.from = from;
-        }
-
-        public String getBaseUrl() {
-            return this.baseUrl;
-        }
-
-        public void setBaseUrl(String baseUrl) {
-            this.baseUrl = baseUrl;
-        }
-    }
 }

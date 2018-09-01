@@ -71,7 +71,7 @@ public class UserResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      * @throws BadRequestAlertException 400 (Bad Request) if the login or email is already in use
      */
-    @PostMapping("/users")
+    @PostMapping("/createUser")
     @Secured(AuthoritiesConstants.ADMIN)
     public ResponseEntity<User> createUser(@Valid @RequestBody UserDTO userDTO) throws URISyntaxException {
         log.debug("REST request to save User : {}", userDTO);
@@ -174,10 +174,6 @@ public class UserResource {
         return ResponseEntity.ok().headers(HeaderUtil.createAlert( "userManagement.deleted", login)).build();
     }
 
-    @GetMapping("/test")
-    public String getUser() {
-        return "SUCCESSFUL";
-    }
 
 
     @RequestMapping({ "/user", "/me","userinfo" })

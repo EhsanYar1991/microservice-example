@@ -120,6 +120,7 @@ public class UserService {
         user.setLastName(userDTO.getLastName());
         user.setEmail(userDTO.getEmail());
         user.setImageUrl(userDTO.getImageUrl());
+        user.setCreatedBy(userDTO.getCreatedBy());
         if (userDTO.getLangKey() == null) {
             user.setLangKey(Constants.DEFAULT_LANGUAGE); // default language
         } else {
@@ -133,9 +134,6 @@ public class UserService {
                 authorities.add(byId.get());
             }
 
-//            Set<Authority> authorities = userDTO.getAuthorities().stream()
-//                    .map(authorityRepository::findOne)
-//                    .collect(Collectors.toSet());
             user.setAuthorities(authorities);
         }
         String encryptedPassword = passwordEncoder.encode(RandomUtil.generatePassword());
