@@ -3,9 +3,11 @@ package com.yar.microservices.uaa.config.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -32,15 +34,22 @@ public class OAuth2SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
     public void globalUserDetails(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.inMemoryAuthentication()
-//        .withUser("bill").password("abc123").roles("ADMIN").and()
-//        .withUser("bob").password("abc123").roles("USER");
 
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
 
 
     }
 
+
+    @Profile("h2")
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+
+        web
+                .ignoring()
+                .antMatchers("/h2console/**");
+
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
