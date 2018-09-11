@@ -1,6 +1,7 @@
 package com.yar.microservices.uaa.repository;
 
 
+import com.yar.microservices.uaa.domain.Authority;
 import com.yar.microservices.uaa.domain.User;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
@@ -45,4 +46,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findOneWithAuthoritiesByEmail(String email);
 
     Page<User> findAllByLoginNot(Pageable pageable, String login);
+
+    List<User> findAllByAuthoritiesContains(Authority authority);
 }

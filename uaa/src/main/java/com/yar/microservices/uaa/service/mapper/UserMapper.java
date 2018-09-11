@@ -91,4 +91,12 @@ public class UserMapper {
             return auth;
         }).collect(Collectors.toSet());
     }
+
+
+    public Set<String> authoritiesToAuthoritiesValueSet(Set<Authority> authorities) {
+
+        return authorities.stream().map(Authority::getName).collect(Collectors.toSet());
+
+    }
+
 }
