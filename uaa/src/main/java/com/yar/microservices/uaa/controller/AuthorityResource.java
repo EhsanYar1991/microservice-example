@@ -157,7 +157,6 @@ public class AuthorityResource {
         userAuthoritiesDTO.setActionMessage(messageService.getMessage(MessageCodes.PROCESS_SUCCESSFUL));
 
         return ResponseEntity.ok(userAuthoritiesDTO);
-
     }
 
 }
