@@ -39,9 +39,9 @@ public class AuthorityResource {
     }
 
 
-    @GetMapping("addAuthority")
+    @GetMapping("addAuthority/{authority}")
     @Secured(AuthoritiesConstants.ADMIN)
-    public ResponseEntity<?> addAuthority(@PathVariable String authority) {
+    public ResponseEntity<?> addAuthority(@PathVariable("authority") String authority) {
 
         Optional<Authority> byId = authorityRepository.findById(authority);
         if (byId.isPresent()) {
@@ -63,9 +63,9 @@ public class AuthorityResource {
         return ResponseEntity.ok(authorityDTO);
     }
 
-    @DeleteMapping("deleteAuthority")
+    @DeleteMapping("deleteAuthority/{authority}")
     @Secured(AuthoritiesConstants.ADMIN)
-    public ResponseEntity<?> deleteAuthority(@PathVariable String authority) {
+    public ResponseEntity<?> deleteAuthority(@PathVariable("authority") String authority) {
 
         Optional<Authority> byId = authorityRepository.findById(authority);
         if (!byId.isPresent()) {
@@ -87,9 +87,9 @@ public class AuthorityResource {
     }
 
 
-    @GetMapping("getUsersByAuthority")
+    @GetMapping("getUsersByAuthority/{authority}")
     @Secured(AuthoritiesConstants.ADMIN)
-    public ResponseEntity<?> getAllUsersByAuthority(String authority) {
+    public ResponseEntity<?> getAllUsersByAuthority(@PathVariable("authority") String authority) {
 
         Optional<Authority> authorityById = authorityRepository.findById(authority);
         if (!authorityById.isPresent()) {
@@ -118,9 +118,9 @@ public class AuthorityResource {
         return ResponseEntity.ok(userListDTO);
     }
 
-    @GetMapping("getUserAuthoritiesByUserId")
+    @GetMapping("getUserAuthoritiesByUserId/{userId}")
     @Secured(AuthoritiesConstants.ADMIN)
-    public ResponseEntity<?> getUserAuthoritiesByUserId(@PathVariable Long userId) {
+    public ResponseEntity<?> getUserAuthoritiesByUserId(@PathVariable("userId") Long userId) {
 
         Optional<User> userById = userRepository.findById(userId);
         if (!userById.isPresent()) {
@@ -134,9 +134,9 @@ public class AuthorityResource {
     }
 
 
-    @GetMapping("getUserAuthoritiesByLogin")
+    @GetMapping("getUserAuthoritiesByLogin/{login}")
     @Secured(AuthoritiesConstants.ADMIN)
-    public ResponseEntity<?> getUserAuthoritiesByLogin(@PathVariable String login) {
+    public ResponseEntity<?> getUserAuthoritiesByLogin(@PathVariable("login") String login) {
 
         Optional<User> userById = userRepository.findOneByLogin(login.toLowerCase());
         if (!userById.isPresent()) {
