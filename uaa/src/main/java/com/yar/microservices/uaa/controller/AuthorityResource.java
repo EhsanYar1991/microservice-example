@@ -13,6 +13,7 @@ import com.yar.microservices.uaa.repository.AuthorityRepository;
 import com.yar.microservices.uaa.repository.UserRepository;
 import com.yar.microservices.uaa.security.AuthoritiesConstants;
 import com.yar.microservices.uaa.service.mapper.UserMapper;
+import org.hibernate.Hibernate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -109,6 +110,8 @@ public class AuthorityResource {
 
             return ResponseEntity.ok(response);
         }
+
+        Hibernate.initialize(allByAuthoritiesContains);
 
         UserListDTO userListDTO = new UserListDTO();
         userListDTO.setUserDTOS(userMapper.usersToUserDTOs(allByAuthoritiesContains));

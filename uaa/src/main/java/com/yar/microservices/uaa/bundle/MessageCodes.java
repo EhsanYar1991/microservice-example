@@ -5,4 +5,5 @@ public interface MessageCodes {
     String AUTHORITY_IS_EXIST = "1001";
     String AUTHORITY_IS_NOT_EXIST = "1002";
     String NO_USER_FOUND = "1003";
+    String INTERNAL_SERVER_ERROR = "1500";
 }

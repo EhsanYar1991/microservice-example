@@ -12,11 +12,10 @@ import java.util.Locale;
 @Configuration
 public class ResourceBundleConfig {
 
-
     @Bean
     public MessageSource messageSource() {
         ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
-        messageSource.setBasenames("i18n/message");
+        messageSource.setBasenames("message/message");
         messageSource.setDefaultEncoding("UTF-8");
         return messageSource;
     }
@@ -24,10 +23,9 @@ public class ResourceBundleConfig {
     @Bean
     public LocaleResolver localeResolver() {
         SessionLocaleResolver slr = new SessionLocaleResolver();
-//        slr.setDefaultLocale(Locale.forLanguageTag("fa"));
-        slr.setDefaultLocale(Locale.forLanguageTag("en"));
+        slr.setDefaultLocale(Locale.forLanguageTag("fa"));
+//        slr.setDefaultLocale(Locale.forLanguageTag("en"));
         return slr;
     }
-
 
 }
